@@ -50,15 +50,26 @@ class ApiController extends Controller
             // p($data);
             DB::beginTransaction();
             try {
-                User::create($data);
+                $user = User::create($data);
                 DB::commit();
             } 
             catch (\Exception $th) {
              DB::rollBack();
              p($th->getMessage());
+             $user = null;
             }
         }
-        p($request->all());
+        if($user !=null){
+            return response()->json([
+                'message' =>  $request->name.' '.'registered successfully'
+            ],200);
+        }
+        else{
+            return response()->json([
+                'message' => ' Internal server error'
+            ],500);
+        }
+        // p($request->all());
     }
 
     /**
