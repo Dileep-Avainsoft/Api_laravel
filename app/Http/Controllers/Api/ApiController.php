@@ -122,6 +122,40 @@ $response=[
      */
     public function destroy(string $id)
     {
-        //
+     $user = User::find($id);
+     if(is_null($user)){
+        $response = [
+            'message' => 'User does not exists',
+            'status' => 0
+
+        ];
+        $responsecode =  404;
+     }
+     else{
+        DB::beginTransaction();
+        try{
+              $user->delete();
+              DB::commit();
+              $response=[
+                'message' => " User delete Successfully",
+                'status' => 1
+              ];
+              $responsecode =  200;
+
+        }
+        catch(\Exception $err){
+
+            DB::rollBack();
+            $response =[
+                'message' => 'Internal Server Error',
+                'status' => 0
+            ];
+            $responsecode =  500;
+
+        }
+     }
+     
+     return response()->json($response,$responsecode);
+
     }
 }
