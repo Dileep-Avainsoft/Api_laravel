@@ -34,3 +34,4 @@ Route::get('/test',function(){
 
 });
 Route::post('/store',[ApiController::class,'store']);
+Route::get('/get',[ApiController::class,'index']);

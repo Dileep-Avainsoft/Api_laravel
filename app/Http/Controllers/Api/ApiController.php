@@ -15,7 +15,28 @@ class ApiController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::all();
+        if(count($user) > 0){
+$response=[
+    'message' => count($user).'User foun',
+    'status' =>1,
+    'data' => $user
+];
+     
+        }
+        else{
+            $response=[
+                'message' => count($user).' '.'User found',
+                'status' =>0,
+           
+            ];
+           
+
+        }
+        return response()->json($response,200);
+    //    p($user);
+
+    
     }
 
     /**
