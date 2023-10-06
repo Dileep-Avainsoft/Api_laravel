@@ -35,5 +35,7 @@ Route::get('/test',function(){
 });
 Route::post('user/store',[ApiController::class,'store']);
 Route::get('user/get',[ApiController::class,'index']);
-Route::get('user/show',[ApiController::class,'show']);
+// Route::get('user/show',[ApiController::class,'show']);
 Route::delete('user/delete/{id}',[ApiController::class,'destroy']);
+Route::put('user/put/{id}',[ApiController::class,'update']);
+

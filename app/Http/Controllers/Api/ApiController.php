@@ -114,8 +114,46 @@ $response=[
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::find($id);
+        if(is_null($user)){
+            //user does not exits
+        return response()->json([
+            'status' => 0,
+            'message' => 'User does not exits'
+        ],404);
     }
+    else{
+        DB::beginTransaction();
+        try{
+            $user->name  = $request['name'];
+            $user->email = $request['email'];
+            $user->City = $request['City'];
+            $user->save();
+            DB::commit();
+        }
+        catch(\Exception $err){
+            DB::rollBack();
+            $user = null;
+        }
+
+        if(is_null($user)){
+            return response()->json(
+                [
+                    'status'=> 0,
+                    'message' => 'Internal server Error'
+                ],500
+                );
+        }
+        else{
+            return response()->json(
+                [
+                    'status'=> 1,
+                    'message' => 'data updated Successfully'
+                ],200
+                );
+        }
+    }
+}
 
     /**
      * Remove the specified resource from storage.
